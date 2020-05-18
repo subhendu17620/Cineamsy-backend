@@ -10,13 +10,13 @@ var passportLocalMongoose = require("passport-local-mongoose");
 
 var app = express();
 
-//app.set('view engine', 'ejs');
 app.use(
   cors({
     origin: "http://localhost:3000", // restrict calls to those this address
     credentials: true,
   })
 );
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -33,12 +33,13 @@ app.use(passport.session());
 
 //Connecting to MongoDB using mongoose
 mongoose
-  .connect("mongodb://localhost/cinemasy", {
+  .connect(process.env.mongo_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log(err));
+
 mongoose.set("useCreateIndex", true);
 
 //Defining Schemas
